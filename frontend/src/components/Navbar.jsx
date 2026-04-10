@@ -3,25 +3,47 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+
   const user = localStorage.getItem("user");
 
   return (
-    <div className="navbar">
-      <h1 className="logo">ProRec</h1>
+    <nav className="navbar">
+      {/* LEFT - LOGO */}
+      <div className="logo" onClick={() => navigate("/")}>
+        ProRec 🚀
+      </div>
 
-      <div>
-        {!user ? (
+      {/* RIGHT - NAV BUTTONS */}
+      <div className="nav-right">
+        <button onClick={() => navigate("/explore")}>
+          Explore
+        </button>
+
+        <button onClick={() => navigate("/saved")}>
+          Saved
+        </button>
+
+        <button onClick={() => navigate("/ai")}>
+          AI
+        </button>
+
+        {user ? (
           <button
-            onClick={() => navigate("/auth")}
-            className="nav-btn"
+            className="primary-btn"
+            onClick={() => navigate("/dashboard")}
           >
-            Login / Signup
+            Dashboard
           </button>
         ) : (
-          <span>Welcome 👋</span>
+          <button
+            className="primary-btn"
+            onClick={() => navigate("/auth")}
+          >
+            Login
+          </button>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -1,0 +1,61 @@
+.page-bg {
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.explore-wrapper {
+  padding: 40px 80px;
+}
+
+/* Header */
+.explore-header h1 {
+  font-size: 32px;
+}
+
+.explore-header p {
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Search Section */
+.search-section {
+  margin-top: 25px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Filters */
+.filter-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.filter-group button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #e2e8f0;
+}
+
+.filter-group .active {
+  background: #2563eb;
+  color: white;
+}
+
+/* Grid */
+.projects-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
