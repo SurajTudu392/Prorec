@@ -1,37 +1,47 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
-from datetime import datetime, timedelta
+from fastapi import FastAPI
+from pydantic import BaseModel
+from supabase_client import supabase
+from fastapi import Depends, HTTPException
+from fastapi.security import HTTPBearer
+
 
 app = FastAPI()
+
+class AuthRequest(BaseModel):
+    email: str
+    password: str
+
+@app.post("/signup")
+def signup(data: AuthRequest):
+    res = supabase.auth.sign_up({
+        "email": data.email,
+        "password": data.password
+    })
+    return res
+
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
-
-#======================== Authentcation System =====================
-SECRET_KEY = "your-secret-key"
-ALGORITHM = "HS256"
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
-def create_token(data: dict):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(hours=1)
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
 @app.post("/login")
-def login():
-    # fake user (replace with DB)
-    token = create_token({"sub": "user1"})
-    return {"access_token": token, "token_type": "bearer"}
+def login(data: AuthRequest):
+    res = supabase.auth.sign_in_with_password({
+        "email": data.email,
+        "password": data.password
+    })
+    return res
 
-@app.get("/protected")
-def protected(token: str = Depends(oauth2_scheme)):
+#====================== JWT =====================
+security = HTTPBearer()
+
+def get_current_user(token=Depends(security)):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return {"user": payload["sub"]}
+        user = supabase.auth.get_user(token.credentials)
+        return user
     except:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+@app.get("/profile")
+def profile(user=Depends(get_current_user)):
+    return {"user": user}
