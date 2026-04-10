@@ -4,61 +4,73 @@ import "./Auth.css";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");      // ✅ ADD THIS
+  const [password, setPassword] = useState(""); // ✅ ADD THIS
   const navigate = useNavigate();
 
-  // Email Login (Demo)
-  const handleAuth = () => {
-    localStorage.setItem("user", "true");
-    navigate("/");
+  const handleAuth = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      console.log("Clicked", email, password);
+      fetch("http://127.0.0.1:8001/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          localStorage.setItem("token", data.session.access_token);
+          localStorage.setItem("user",true);
+          navigate("/");
+        })
+        .catch(err => console.log(err));
+    } else {
+      fetch("http://127.0.0.1:8001/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+    }
   };
 
-  // 🔥 Mock Google Login
-  const handleGoogleLogin = () => {
-    alert("Google Login (Demo)");
-    localStorage.setItem("user", "google_user");
-    navigate("/");
-  };
-
-  // 🔥 Mock GitHub Login
-  const handleGithubLogin = () => {
-    alert("GitHub Login (Demo)");
-    localStorage.setItem("user", "github_user");
-    navigate("/");
-  };
 
   return (
     <div className="auth-container">
       <div className="auth-box">
         <h2>{isLogin ? "Welcome Back 👋" : "Create Account 🚀"}</h2>
 
-        <input className="auth-input" type="email" placeholder="Email" />
-        <input className="auth-input" type="password" placeholder="Password" />
+        <input
+          className="auth-input"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          className="auth-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {!isLogin && (
+          <input
+            className="auth-input"
+            type="password"
+            placeholder="Confirm Password"
+          />
+        )}
 
         <button className="auth-btn" onClick={handleAuth}>
           {isLogin ? "Login" : "Sign Up"}
         </button>
 
-        {/* Divider */}
-        <div className="divider">OR</div>
-
-        {/* OAuth Buttons */}
-        <button className="oauth-btn google" onClick={handleGoogleLogin}>
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-            alt="google"
-          />
-          Continue with Google
-        </button>
-
-        <button className="oauth-btn github" onClick={handleGithubLogin}>
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-            alt="github"
-          />
-          Continue with GitHub
-        </button>
-
-        <p className="toggle-text" onClick={() => setIsLogin(!isLogin)}>
+        <p
+          className="toggle-text"
+          onClick={() => setIsLogin(!isLogin)}
+        >
           {isLogin
             ? "New here? Create an account"
             : "Already have an account? Login"}
@@ -69,3 +81,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+//P@nd0r@_293_C0de

@@ -4,8 +4,18 @@ from supabase_client import supabase
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # for dev only
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class AuthRequest(BaseModel):
     email: str
@@ -26,10 +36,13 @@ async def root():
 
 @app.post("/login")
 def login(data: AuthRequest):
+
+    print("Data send by User : ",data)
     res = supabase.auth.sign_in_with_password({
         "email": data.email,
         "password": data.password
     })
+    print("Data send to User : ",res)
     return res
 
 #====================== JWT =====================

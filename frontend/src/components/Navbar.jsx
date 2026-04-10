@@ -4,6 +4,11 @@ import "./Navbar.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const user = localStorage.getItem("user");
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/auth");
+  };
 
   return (
     <div className="navbar">
@@ -18,7 +23,12 @@ const Navbar = () => {
             Login / Signup
           </button>
         ) : (
-          <span>Welcome 👋</span>
+          <button
+            onClick={logout}
+            className="nav-btn"
+          >
+            Logout
+          </button>
         )}
       </div>
     </div>
