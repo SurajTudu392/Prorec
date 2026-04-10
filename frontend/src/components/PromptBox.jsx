@@ -14,8 +14,11 @@ const PromptBox = () => {
       navigate("/auth");
       return;
     }
-
-    console.log(input);
+    else
+    {
+        navigate("/results");
+        console.log(input);
+    }
   };
 
   return (
