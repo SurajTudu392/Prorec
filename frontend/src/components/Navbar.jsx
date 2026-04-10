@@ -33,18 +33,28 @@ const Navbar = () => {
         </button>
 
         {user ? (
+          <>
           <button
             className="primary-btn"
             onClick={() => navigate("/dashboard")}
           >
             Dashboard
           </button>
-        ) : (
           <button
             onClick={logout}
             className="nav-btn"
           >
             Logout
+          </button>
+          </>
+        ) : (
+
+          <button
+            onClick={() => {navigate("/auth");}}
+            className="nav-btn"
+          >
+            
+            Login
           </button>
         )}
       </div>
