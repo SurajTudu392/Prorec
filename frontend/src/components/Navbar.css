@@ -50,3 +50,55 @@
 .signup-btn:hover {
   background: #1e40af;
 }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+/* Right Section */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Normal Buttons */
+.nav-right button {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: #444;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav-right button:hover {
+  background: #f1f5f9;
+}
+
+/* Primary Button (Login / Dashboard) */
+.primary-btn {
+  background: #2563eb !important;
+  color: white !important;
+  padding: 9px 18px !important;
+  border-radius: 8px !important;
+  font-weight: 500;
+}
+
+.primary-btn:hover {
+  background: #1e40af !important;
+}
